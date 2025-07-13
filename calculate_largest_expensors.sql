@@ -1,11 +1,13 @@
 -- Report employees whose total expensed amount exceeds 1,000
 
+USE memory.default;
+
 WITH aggregated_expenses AS (
 	-- Aggregate expenses per employee
     SELECT
         employee_id,
         SUM(unit_price * quantity) AS total_expensed_amount
-    FROM memory.default.expense
+    FROM expense
     GROUP BY employee_id
 )
 SELECT
@@ -15,9 +17,9 @@ SELECT
     CONCAT(m.first_name, ' ', m.last_name) AS manager_name,
     ag.total_expensed_amount
 FROM aggregated_expenses ag
-JOIN memory.default.employee e
+JOIN employee e
   ON e.employee_id = ag.employee_id
-LEFT JOIN memory.default.employee m
+LEFT JOIN employee m
   ON m.employee_id = e.manager_id
 WHERE ag.total_expensed_amount > 1000
 ORDER BY ag.total_expensed_amount DESC;

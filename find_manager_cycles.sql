@@ -1,5 +1,7 @@
 -- Detect manager approval cycles in the EMPLOYEE hierarchy
 
+USE memory.default;
+
 WITH RECURSIVE manager_path (employee_id, manager_id, path, cycle_detected) AS (
     -- Base row for each employee
     SELECT
@@ -7,7 +9,7 @@ WITH RECURSIVE manager_path (employee_id, manager_id, path, cycle_detected) AS (
         manager_id,
         ARRAY[employee_id] AS path,
         FALSE AS cycle_detected
-    FROM memory.default.employee
+    FROM employee
 
     UNION ALL
 
@@ -17,7 +19,7 @@ WITH RECURSIVE manager_path (employee_id, manager_id, path, cycle_detected) AS (
         e.manager_id,
         mp.path || ARRAY[e.employee_id] AS path,
         contains(mp.path, e.employee_id) AS cycle_detected
-    FROM memory.default.employee e
+    FROM employee e
     JOIN manager_path mp
       ON e.employee_id = mp.manager_id
     WHERE NOT mp.cycle_detected           -- Stop expanding once a cycle is found

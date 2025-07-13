@@ -6,6 +6,8 @@
 -- The final row per supplier is rounded/adjusted so the running balance never drifts by a cent
 -- ==============================================================
 
+USE memory.default;
+
 WITH invoices AS (          
 	-- One row per invoice
     SELECT
@@ -19,7 +21,7 @@ WITH invoices AS (
             date_trunc('month', CURRENT_DATE),
             date_trunc('month', i.due_date)
         ) AS pay_months
-    FROM memory.default.invoice i
+    FROM invoice i
 ),
 inv_schedule AS (               
 	-- Spread each invoice across its pay-months
@@ -103,6 +105,6 @@ SELECT
     ROUND(b.grand_total - b.cumulative_paid, 2) AS balance_outstanding,
     b.payment_date
 FROM balances b
-JOIN memory.default.supplier s
+JOIN supplier s
   ON s.supplier_id = b.supplier_id
 ORDER BY s.supplier_id, b.payment_date;
