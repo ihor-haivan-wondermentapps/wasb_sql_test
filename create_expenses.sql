@@ -1,11 +1,11 @@
 -- Rebuild SExI: create and populate EXPENSE table in the memory.default schema
 
+-- Expenses table: tracks individual employee expenses
 DROP TABLE IF EXISTS memory.default.expense;
-
 CREATE TABLE memory.default.expense (
-    employee_id TINYINT,
-    unit_price DECIMAL(8, 2),
-    quantity TINYINT
+    employee_id TINYINT NOT NULL,
+    unit_price DECIMAL(8,2) NOT NULL,
+    quantity TINYINT NOT NULL
 );
 
 -- Populate the EXPENSE table with initial data

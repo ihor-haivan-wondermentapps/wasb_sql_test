@@ -1,13 +1,13 @@
 -- Rebuild SExI: create and populate EMPLOYEE table in the memory.default schema
 
+-- Employees table: stores company employee information
 DROP TABLE IF EXISTS memory.default.employee;
-
 CREATE TABLE memory.default.employee (
-    employee_id TINYINT,
-    first_name VARCHAR,
-    last_name VARCHAR,
-    job_title VARCHAR,
-    manager_id TINYINT
+    employee_id TINYINT NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
+    job_title VARCHAR NOT NULL,
+    manager_id TINYINT -- nullable if top-level executive
 );
 
 -- Populate the table with initial data

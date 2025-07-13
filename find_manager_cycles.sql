@@ -21,6 +21,7 @@ WITH RECURSIVE manager_path (employee_id, manager_id, path, cycle_detected) AS (
     JOIN manager_path mp
       ON e.employee_id = mp.manager_id
     WHERE NOT mp.cycle_detected           -- Stop expanding once a cycle is found
+	  AND e.manager_id IS NOT NULL
 )
 
 SELECT

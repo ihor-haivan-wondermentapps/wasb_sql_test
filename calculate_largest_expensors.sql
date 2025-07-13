@@ -1,6 +1,7 @@
 -- Report employees whose total expensed amount exceeds 1,000
 
 WITH aggregated_expenses AS (
+	-- Aggregate expenses per employee
     SELECT
         employee_id,
         SUM(unit_price * quantity) AS total_expensed_amount
